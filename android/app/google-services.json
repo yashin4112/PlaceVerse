@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "865130205176",
+    "project_id": "placeverse-1510c",
+    "storage_bucket": "placeverse-1510c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:865130205176:android:5c92414d31de7a5b73900d",
+        "android_client_info": {
+          "package_name": "com.yash.placeverse.placeverse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "865130205176-d1ldl647ja6o19ocn3oegdkcog4p6ttl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEoHGyiqrxLBlN2QHP-4UrOk8DVe6w6dE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "865130205176-d1ldl647ja6o19ocn3oegdkcog4p6ttl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
