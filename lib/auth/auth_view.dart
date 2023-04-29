@@ -5,6 +5,8 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:placeverse/auth/auth.dart';
 
+import '../admin/view.dart';
+
 enum AuthMode { Signup, Login }
 
 class AuthScreen extends StatelessWidget {
@@ -109,15 +111,22 @@ class _AuthCardState extends State<AuthCard> {
       // Invalid!
       return;
     }
-    print('data $_authData');
     _formKey.currentState!.save();
     setState(() {
       _isLoading = true;
     });
     if (_authMode == AuthMode.Login) {
       // Log user in
-      var id = await Auth.signIn(_authData['email'], _authData['password']);
+      var user = await Auth.signIn(_authData['email'], _authData['password']);
       Fluttertoast.showToast(msg: 'Login Done');
+      if (user != null) {
+        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => AdminView()));
+      }
+      else{
+        _isLoading = true;
+        Fluttertoast.showToast(msg: 'Sign in Failed');
+      }
+
     } else {
       var id = await Auth.signUp(_authData['email'], _authData['password']);
       print(id);

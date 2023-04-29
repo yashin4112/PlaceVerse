@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:placeverse/auth/auth_screen.dart';
+import 'package:placeverse/auth/auth_view.dart';
 import 'firebase_options.dart';
 import 'auth/view.dart';
 
