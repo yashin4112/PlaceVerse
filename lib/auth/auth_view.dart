@@ -291,12 +291,6 @@ class _AuthCardState extends State<AuthCard> {
                     ),
                   ),
                 ),
-                NeumorphicButton(
-                  child: Text('Sign out'),
-                  onPressed: (){
-                    Auth.signOut();
-                  },
-                )
               ],
             ),
           ),
