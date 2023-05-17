@@ -120,7 +120,7 @@ class _AuthCardState extends State<AuthCard> {
       var user = await Auth.signIn(_authData['email'], _authData['password']);
       Fluttertoast.showToast(msg: 'Login Done');
       if (user != null) {
-        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => AdminView()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => AdminView(user: user,)));
       }
       else{
         _isLoading = true;

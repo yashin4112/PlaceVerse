@@ -30,7 +30,7 @@ class Auth {
           User? user = result.user; 
           CollectionReference collectionReference = FirebaseFirestore.instance.collection('Cities');
           String uid = user!.uid;
-          FirebaseFirestore.instance.collection('cities').doc('authen2').set({
+          FirebaseFirestore.instance.collection('com').doc('authen2').set({
             'capital': 'auth', 'uid': uid
           });
           print('useerrr $user');
@@ -62,7 +62,7 @@ class Auth {
     }
   }
 
-  Future<User?> getCurrentUser() async {
+  static Future<User?> getCurrentUser() async {
     final User? user = await _firebaseAuth.currentUser;
     return user;
   }
