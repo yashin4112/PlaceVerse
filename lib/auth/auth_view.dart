@@ -22,16 +22,17 @@ class AuthScreen extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
-                  Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                stops: [0, 1],
-              ),
+            decoration: const BoxDecoration(
+              // gradient: LinearGradient(
+              //   colors: [
+              //     Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
+              //     Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
+              //   ],
+              //   begin: Alignment.topLeft,
+              //   end: Alignment.bottomRight,
+              //   stops: [0, 1],
+              // ),
+              color: Color.fromRGBO(186, 220, 237, 1),
             ),
           ),
           SingleChildScrollView(

@@ -1,10 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:placeverse/admin/Controller.dart';
 import 'package:placeverse/admin/addrecord.dart';
 import 'package:placeverse/auth/auth.dart';
+import 'package:placeverse/main.dart';
+import 'package:placeverse/stud_data/simple_view.dart';
+import 'package:placeverse/stud_data/view.dart';
 
 class AdminView extends StatefulWidget {
   User user;
@@ -14,10 +20,13 @@ class AdminView extends StatefulWidget {
 }
 
 class _AdminViewState extends State<AdminView> {
+  var data={};
+  var list = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromRGBO(186, 220, 237, 1),
+        backgroundColor: Color.fromRGBO(186, 220, 237, 1),//Color.fromRGBO(151, 196, 218, 1), // 
         appBar: AppBar(
           // leading: Icon(Icons.admin_panel_settings_outlined),
           leading: Icon(
@@ -31,6 +40,7 @@ class _AdminViewState extends State<AdminView> {
             style: TextStyle(
               fontFamily: 'TextaAltMedium',
               fontWeight: FontWeight.w500,
+              fontSize: 25,
               color: Color.fromRGBO(60, 108, 135, 1),
             ),
           ),
@@ -40,7 +50,7 @@ class _AdminViewState extends State<AdminView> {
                   Auth.signOut();
                   Navigator.of(context).pop();
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.logout_outlined,
                   color: Color.fromRGBO(60, 108, 135, 1),
                 )),
@@ -58,379 +68,106 @@ class _AdminViewState extends State<AdminView> {
             borderRadius: BorderRadius.circular(30),
           ),
         ),
-        body: Padding(
-        padding: const EdgeInsets.only(top: 15.0, left: 5,right: 5),
-        child: Column(
-          children: [
-            // Neumorphic(
-            //   child: Table(
-            //     border: TableBorder(
-            //         horizontalInside:
-            //             BorderSide(color: Colors.blueGrey.shade200, width: 2.0)
-            //     ),
-            //     children: const [
-            //       TableRow(children: [
-            //         Center(
-            //           child: Padding(
-            //             padding: const EdgeInsets.symmetric(vertical: 10),
-            //             child: Text(
-            //               "PRN",
-            //               style: TextStyle(
-            //                   fontWeight: FontWeight.bold, color: Colors.black87),
-            //             ),
-            //           ),
-            //         ),
-            //         Center(
-            //           child: Padding(
-            //             padding: const EdgeInsets.symmetric(vertical: 10),
-            //             child: Text(
-            //               "NAME",
-            //               style: TextStyle(
-            //                   fontWeight: FontWeight.bold, color: Colors.black87),
-            //             ),
-            //           ),
-            //         ),
-            //         Center(
-            //           child: Padding(
-            //             padding: const EdgeInsets.symmetric(vertical: 10),
-            //             child: Text(
-            //               "Company",
-            //               style: TextStyle(
-            //                   fontWeight: FontWeight.bold, color: Colors.black87),
-            //             ),
-            //           ),
-            //         ),
-            //         Center(
-            //           child: Padding(
-            //             padding: const EdgeInsets.symmetric(vertical: 10),
-            //             child: Text(
-            //               "CGPA",
-            //               style: TextStyle(
-            //                   fontWeight: FontWeight.bold, color: Colors.black87),
-            //             ),
-            //           ),
-            //         ),
-                    
-            //       ]),
-          
-            //       TableRow(children: [
-            //         Center(
-            //           child: Padding(
-            //             padding: const EdgeInsets.symmetric(vertical: 10),
-            //             child: Text(
-            //               "20220204006",
-            //               style: TextStyle(
-            //                   fontWeight: FontWeight.bold, color: Colors.black87),
-            //             ),
-            //           ),
-            //         ),
-            //         Center(
-            //           child: Padding(
-            //             padding: const EdgeInsets.symmetric(vertical: 10),
-            //             child: Text(
-            //               "Yash Shinde",
-            //               style: TextStyle(
-            //                   fontWeight: FontWeight.bold, color: Colors.black87),
-            //             ),
-            //           ),
-            //         ),
-            //         Center(
-            //           child: Padding(
-            //             padding: const EdgeInsets.symmetric(vertical: 10),
-            //             child: Text(
-            //               "Amazon",
-            //               style: TextStyle(
-            //                   fontWeight: FontWeight.bold, color: Colors.black87),
-            //             ),
-            //           ),
-            //         ),
-            //         Center(
-            //           child: Padding(
-            //             padding: const EdgeInsets.symmetric(vertical: 10),
-            //             child: Text(
-            //               "8.84",
-            //               style: TextStyle(
-            //                   fontWeight: FontWeight.bold, color: Colors.black87),
-            //             ),
-            //           ),
-            //         ),  
-            //       ]),
-            //       TableRow(children: [
-            //         Center(
-            //           child: Padding(
-            //             padding: const EdgeInsets.symmetric(vertical: 10),
-            //             child: Text(
-            //               "20220204006",
-            //               style: TextStyle(
-            //                   fontWeight: FontWeight.bold, color: Colors.black87),
-            //             ),
-            //           ),
-            //         ),
-            //         Center(
-            //           child: Padding(
-            //             padding: const EdgeInsets.symmetric(vertical: 10),
-            //             child: Text(
-            //               "Yash Shinde",
-            //               style: TextStyle(
-            //                   fontWeight: FontWeight.bold, color: Colors.black87),
-            //             ),
-            //           ),
-            //         ),
-            //         Center(
-            //           child: Padding(
-            //             padding: const EdgeInsets.symmetric(vertical: 10),
-            //             child: Text(
-            //               "Amazon",
-            //               style: TextStyle(
-            //                   fontWeight: FontWeight.bold, color: Colors.black87),
-            //             ),
-            //           ),
-            //         ),
-            //         Center(
-            //           child: Padding(
-            //             padding: const EdgeInsets.symmetric(vertical: 10),
-            //             child: Text(
-            //               "8.84",
-            //               style: TextStyle(
-            //                   fontWeight: FontWeight.bold, color: Colors.black87),
-            //             ),
-            //           ),
-            //         ),  
-            //       ]),
-            //       TableRow(children: [
-            //         Center(
-            //           child: Padding(
-            //             padding: const EdgeInsets.symmetric(vertical: 10),
-            //             child: Text(
-            //               "20220204006",
-            //               style: TextStyle(
-            //                   fontWeight: FontWeight.bold, color: Colors.black87),
-            //                   textAlign: TextAlign.center,
-            //             ),
-            //           ),
-            //         ),
-            //         Center(
-            //           child: Padding(
-            //             padding: const EdgeInsets.symmetric(vertical: 10),
-            //             child: Text(
-            //               "Varun Khambayate",
-            //               style: TextStyle(
-            //                 fontWeight: FontWeight.bold, color: Colors.black87),
-            //                 textAlign: TextAlign.center,
-            //             ),
-            //           ),
-            //         ),
-            //         Center(
-            //           child: Padding(
-            //             padding: const EdgeInsets.symmetric(vertical: 10),
-            //             child: Text(
-            //               "Deutsche Bank",
-            //               style: TextStyle(
-            //                   fontWeight: FontWeight.bold, color: Colors.black87),
-            //             ),
-            //           ),
-            //         ),
-            //         Center(
-            //           child: Padding(
-            //             padding: const EdgeInsets.symmetric(vertical: 10),
-            //             child: Text(
-            //               "8.84",
-            //               style: TextStyle(
-            //                   fontWeight: FontWeight.bold, color: Colors.black87),
-            //             ),
-            //           ),
-            //         ),  
-            //       ]),
-            //     ],
-            //   ),
-            // )
-        
-            Center(
-              child: Neumorphic(
-                style: const NeumorphicStyle(
-                  depth: 5,
-                  shadowDarkColor: Color.fromRGBO(136, 188, 218, 1),
-                  shadowLightColor: Color.fromRGBO(216, 234, 245, 1),
-                ),
-                child: Container(
-                  height: 170,
-                  width: 300,
-                  decoration: const BoxDecoration(
-                    // gradient: LinearGradient(
-                    //   colors: [
-                    //     Color.fromRGBO(213, 224, 241, 1).withOpacity(0.5),
-                    //     Color.fromRGBO(65, 108, 173, 1).withOpacity(0.9),
-                    //   ],
-                    //   begin: Alignment.topLeft,
-                    //   end: Alignment.bottomRight,
-                    //   stops: [0, 1],
-                    // ),
-                    color: Color.fromRGBO(186, 220, 237, 1), 
-                  ),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children:const[
-                        Text(
-                          'Name: Yash Shinde',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'TextaAltMedium',
-                            color: Color.fromRGBO(60, 108, 135, 1),
-                          ),  
+        body: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('Placement').snapshots(),
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            
+              if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (widget.user.uid == 'Hl13qcEyhAcVYUMhyh56CJCGoxt2') {
+                FirebaseFirestore.instance.collection('Placement').get().then(
+                  (QuerySnapshot){
+                    data.clear();
+                    var t = QuerySnapshot.docs;
+                    for (var e in t) {
+                      data[e.id] = e.data();
+                    }
+                  }
+                );
+              print('data $data');
+              data.forEach((key, value) async{ 
+                list.add(key);
+              });
+              return ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context,count){
+               return Padding(
+                padding: const EdgeInsets.only(top: 15.0, left: 5,right: 5),
+                child: Column(
+                  children: [
+                    SizedBox(height: 15,),
+                    Center(
+                    child: Neumorphic(
+                      style: const NeumorphicStyle(
+                        depth: 4,
+                        shadowDarkColor: Color.fromRGBO(122, 177, 209, 1),
+                        shadowLightColor: Color.fromRGBO(228, 241, 248, 1),
+                      ),
+                      child: GestureDetector(
+                        onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentData(data: data[list[count]])));
+                        },
+                        child: Container(
+                          height: 70,
+                          width: 180,
+                          decoration: const BoxDecoration(
+                            color: Color.fromRGBO(186, 220, 237, 1), 
+                          ),
+                          child: Center(
+                            child: Text(
+                              list[count],
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: 'TextaAltMedium',
+                                color: Color.fromRGBO(60, 108, 135, 1),
+                              ),  
+                            ),
+                          ),
                         ),
-                        Text('PRN: 202202040006',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'TextaAltMedium',
-                            color: Color.fromRGBO(60, 108, 135, 1),
-                          ),  
-                        ),
-                        Text('CGPA: 8.95',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'TextaAltMedium',
-                            color: Color.fromRGBO(60, 108, 135, 1),
-                          ),  
-                        ),
-                       Text('Company: Morgan Stanley',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'TextaAltMedium',
-                            color: Color.fromRGBO(60, 108, 135, 1),
-                          ),  
-                       ),
-                      ],
+                      ),
                     ),
                   ),
+                  SizedBox(height: 15,),
+                  ]
                 ),
-              ),
-            ),
-            SizedBox(height: 25,),
-            Center(
-              child: Neumorphic(
-                style: NeumorphicStyle(
-                  depth: 5,
-                  shadowDarkColor: Color.fromRGBO(136, 188, 218, 1),
-                  shadowLightColor: Color.fromRGBO(216, 234, 245, 1),
-                ),
-                child: Container(
-                  height: 170,
-                  width: 300,
-                  decoration: const BoxDecoration(
-                    // gradient: LinearGradient(
-                    //   colors: [
-                    //     Color.fromRGBO(213, 224, 241, 1).withOpacity(0.5),
-                    //     Color.fromRGBO(65, 108, 173, 1).withOpacity(0.9),
-                    //   ],
-                    //   begin: Alignment.topLeft,
-                    //   end: Alignment.bottomRight,
-                    //   stops: [0, 1],
-                    // ),
-                    color: Color.fromRGBO(186, 220, 237, 1), 
-                  ),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children:const[
-                        Text(
-                          'Name: Yash Shinde',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'TextaAltMedium',
-                            color: Color.fromRGBO(60, 108, 135, 1),
-                          ),  
-                        ),
-                        Text('PRN: 202202040006',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'TextaAltMedium',
-                            color: Color.fromRGBO(60, 108, 135, 1),
-                          ),  
-                        ),
-                        Text('CGPA: 8.95',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'TextaAltMedium',
-                            color: Color.fromRGBO(60, 108, 135, 1),
-                          ),  
-                        ),
-                       Text('Company: Morgan Stanley',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'TextaAltMedium',
-                            color: Color.fromRGBO(60, 108, 135, 1),
-                          ),  
-                       ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 15,),
-            // Center(
-            //   child: Neumorphic(
-            //     style: NeumorphicStyle(
-            //       depth: 15,
-            //       shadowDarkColor: Color.fromRGBO(83, 109, 194, 1).withOpacity(0.8),
-            //     ),
-            //     child: Container(
-            //       height: 170,
-            //       width: 300,
-            //       decoration: BoxDecoration(
-            //         gradient: LinearGradient(
-            //           colors: [
-            //             Color.fromRGBO(213, 224, 241, 1).withOpacity(0.5),
-            //             Color.fromRGBO(65, 108, 173, 1).withOpacity(0.9),
-            //           ],
-            //           begin: Alignment.topLeft,
-            //           end: Alignment.bottomRight,
-            //           stops: [0, 1],
-            //         ),
-            //       ),
-            //       child: Center(
-            //         child: Column(
-            //           mainAxisAlignment: MainAxisAlignment.center,
-            //           crossAxisAlignment: CrossAxisAlignment.start,
-            //           children:const[
-            //             Text(
-            //               'Name: Yash Shinde',
-            //               style: TextStyle(
-            //                 fontSize: 20,
-            //                 color: Colors.white,
-            //               ),  
-            //             ),
-            //             Text('PRN: 202202040006',
-            //             style: TextStyle(
-            //                 fontSize: 20,
-            //                 color: Colors.white,
-            //               ),  
-            //             ),
-            //             Text('CGPA: 8.95',
-            //               style: TextStyle(
-            //                 fontSize: 20,
-            //                 color: Colors.white,
-            //               ),  
-            //             ),
-            //            Text('Company: Morgan Stanley',
-            //               style: TextStyle(
-            //                 fontSize: 20,
-            //                 color: Colors.white,
-            //               ),  
-            //            ),
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // )
-        
-          ],
-        ),
-          ),
+               );
+              }
+            );
+            } else {
+              if (widget.user.uid == 'YcNpTLiM5vSi2p3lQknNs6U7Z2H3') {
+                // FirebaseFirestore.instance.collection('Placement').doc('AWS').get().then(
+                //   (QuerySnapshot) async{
+                //     data.clear();
+                //     data = QuerySnapshot.data()!;
+                //   }
+                // );
+                // return OneDataView(company: 'AWS');
+              }
+              else if(widget.user.uid == 'SJPijuJn5yRtitxpKzzVinQR7kq2') {
+                FirebaseFirestore.instance.collection('Placement').doc('Morgan Stanley').get().then(
+                  (QuerySnapshot) async{
+                    data.clear();
+                    data = QuerySnapshot.data()!;
+                  }
+                );
+                return StudentData(data: data);
+              }
+              else if(widget.user.uid == 'QecxFC7GIKelUepQJGWlu58xlfA2') {
+                FirebaseFirestore.instance.collection('Placement').doc('Amazon').get().then(
+                  (QuerySnapshot) async{
+                    data.clear();
+                    data = QuerySnapshot.data()!;
+                  }
+                );
+                return StudentData(data: data);
+              }
+            }
+            return Container();
+        }
+        ), 
         floatingActionButton: _getFAB(),
       );
   }
@@ -441,7 +178,9 @@ class _AdminViewState extends State<AdminView> {
     } else {
       return  GestureDetector(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext) => AddRecord(user: widget.user,)));
+            // Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext) => AddRecord(user: widget.user,)));
+            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext) => OneDataView()));
+            // Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext) => ReadData()));
           },
           child: Neumorphic(
             padding: EdgeInsets.all(1),

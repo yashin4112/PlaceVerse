@@ -167,13 +167,7 @@ class _AddRecordState extends State<AddRecord> {
                     child:
                         Text('Add'),
                     onPressed: (){
-                      FirebaseFirestore.instance.collection(company).doc(prn).set({
-                          'prn':prn,
-                          'name':name,
-                          'cgpa':cgpa,
-                          'company':company,
-                      });
-                      FirebaseFirestore.instance.collection('company').doc(prn).set({
+                      FirebaseFirestore.instance.collection('Placement').doc(company).set({
                           'prn':prn,
                           'name':name,
                           'cgpa':cgpa,
