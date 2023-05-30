@@ -17,6 +17,7 @@ class AddRecord extends StatefulWidget {
 
 class _AddRecordState extends State<AddRecord> {
   late String prn,name,company,cgpa;
+  var data={};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -167,12 +168,24 @@ class _AddRecordState extends State<AddRecord> {
                     child:
                         Text('Add'),
                     onPressed: (){
-                      FirebaseFirestore.instance.collection('Placement').doc(company).set({
+
+                      FirebaseFirestore.instance.collection('Placement').doc(company).get().then(
+                      (QuerySnapshot) async{
+                        data.clear();
+                        data = QuerySnapshot.data()!;
+                      }
+                    );
+
+                      FirebaseFirestore.instance.collection(company).doc(prn).set({
                           'prn':prn,
                           'name':name,
                           'cgpa':cgpa,
                           'company':company,
-                      });
+                      }, SetOptions(merge: true));
+                      FirebaseFirestore.instance.collection('Placement').doc(company).set({
+                          
+                      }, SetOptions(merge: true));
+
                       Fluttertoast.showToast(msg: 'Record Added');
                     },
                     style: NeumorphicStyle(

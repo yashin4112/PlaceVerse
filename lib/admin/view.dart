@@ -1,3 +1,4 @@
+import 'package:async_builder/async_builder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,7 +23,12 @@ class AdminView extends StatefulWidget {
 class _AdminViewState extends State<AdminView> {
   var data={};
   var list = [];
+  var listData = {};
 
+  Map<String,dynamic>aws = {}; 
+  Map<String,dynamic> morgan = {}; 
+  var jp = {}; 
+  int i=0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,17 +74,10 @@ class _AdminViewState extends State<AdminView> {
             borderRadius: BorderRadius.circular(30),
           ),
         ),
-        body: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('Placement').snapshots(),
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            
-              if (!snapshot.hasData) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (widget.user.uid == 'Hl13qcEyhAcVYUMhyh56CJCGoxt2') {
-                FirebaseFirestore.instance.collection('Placement').get().then(
+        body: AsyncBuilder(
+          future: FirebaseFirestore.instance.collection('Placement').get(),
+          builder: (BuildContext context, snapshot) {
+            FirebaseFirestore.instance.collection('Placement').get().then(
                   (QuerySnapshot){
                     data.clear();
                     var t = QuerySnapshot.docs;
@@ -87,12 +86,33 @@ class _AdminViewState extends State<AdminView> {
                     }
                   }
                 );
-              print('data $data');
               data.forEach((key, value) async{ 
                 list.add(key);
               });
+
+              data.clear();
+              for (var i in list) {
+                FirebaseFirestore.instance.collection(i).get().then(
+                  (QuerySnapshot) async {
+                    // var t = ;
+                    QuerySnapshot.docs.forEach((e) {
+                      if (i.toString().toLowerCase()=='aws') {
+                        aws[e.id] = e.data();
+                      }
+                      else if (i.toString().toLowerCase()=='morgan stanley') {
+                        morgan[e.id] = e.data();
+                      }
+                    }); 
+                  }
+                );
+              }
+            if (widget.user.uid == 'Hl13qcEyhAcVYUMhyh56CJCGoxt2') {
+              print('morgan2 $morgan');
+              print('aws $aws');
+              list = list.toSet().toList();
+              print('object ${list}');
               return ListView.builder(
-              itemCount: data.length,
+              itemCount: list.length,
               itemBuilder: (context,count){
                return Padding(
                 padding: const EdgeInsets.only(top: 15.0, left: 5,right: 5),
@@ -107,8 +127,14 @@ class _AdminViewState extends State<AdminView> {
                         shadowLightColor: Color.fromRGBO(228, 241, 248, 1),
                       ),
                       child: GestureDetector(
-                        onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentData(data: data[list[count]])));
+                        onTap: () async{
+                            if (list[count].toString().toLowerCase() == 'morgan stanley') {
+                              print(morgan);
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentData(data: morgan)));
+                            }
+                            else if (list[count].toString().toLowerCase() == 'aws') {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentData(data: aws)));
+                            }
                         },
                         child: Container(
                           height: 70,
@@ -138,31 +164,13 @@ class _AdminViewState extends State<AdminView> {
             );
             } else {
               if (widget.user.uid == 'YcNpTLiM5vSi2p3lQknNs6U7Z2H3') {
-                // FirebaseFirestore.instance.collection('Placement').doc('AWS').get().then(
-                //   (QuerySnapshot) async{
-                //     data.clear();
-                //     data = QuerySnapshot.data()!;
-                //   }
-                // );
-                // return OneDataView(company: 'AWS');
+                return StudentData(data: aws);
               }
               else if(widget.user.uid == 'SJPijuJn5yRtitxpKzzVinQR7kq2') {
-                FirebaseFirestore.instance.collection('Placement').doc('Morgan Stanley').get().then(
-                  (QuerySnapshot) async{
-                    data.clear();
-                    data = QuerySnapshot.data()!;
-                  }
-                );
-                return StudentData(data: data);
+                return StudentData(data: morgan);
               }
               else if(widget.user.uid == 'QecxFC7GIKelUepQJGWlu58xlfA2') {
-                FirebaseFirestore.instance.collection('Placement').doc('Amazon').get().then(
-                  (QuerySnapshot) async{
-                    data.clear();
-                    data = QuerySnapshot.data()!;
-                  }
-                );
-                return StudentData(data: data);
+                return StudentData(data: jp); 
               }
             }
             return Container();
@@ -178,8 +186,8 @@ class _AdminViewState extends State<AdminView> {
     } else {
       return  GestureDetector(
           onTap: () {
-            // Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext) => AddRecord(user: widget.user,)));
-            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext) => OneDataView()));
+            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext) => AddRecord(user: widget.user,)));
+            // Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext) => OneDataView()));
             // Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext) => ReadData()));
           },
           child: Neumorphic(

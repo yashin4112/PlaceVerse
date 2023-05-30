@@ -22,7 +22,8 @@ class _OneDataViewState extends State<OneDataView> {
       future: FirebaseFirestore.instance.collection('Placement').doc('AWS').get(),
       builder: (BuildContext context, snapshot){
         data = snapshot!.data()!;
-        return StudentData(data: data);
+        // return StudentData(data);
+        return Container();
       }          
     );
   }
