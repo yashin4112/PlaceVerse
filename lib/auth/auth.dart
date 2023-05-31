@@ -33,10 +33,6 @@ class Auth {
           FirebaseFirestore.instance.collection('com').doc('authen2').set({
             'capital': 'auth', 'uid': uid
           });
-          print('useerrr $user');
-          // Navigator.push(context, MaterialPageRoute(builder: (context)=>AdminView()));
-          // Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext (context) => AdminView())));
-          // Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => AdminView()));
 
           return user;
         } catch (e) {

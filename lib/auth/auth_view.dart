@@ -23,15 +23,6 @@ class AuthScreen extends StatelessWidget {
         children: <Widget>[
           Container(
             decoration: const BoxDecoration(
-              // gradient: LinearGradient(
-              //   colors: [
-              //     Color.fromRGBO(215, 117, 255, 1).withOpacity(0.5),
-              //     Color.fromRGBO(255, 188, 117, 1).withOpacity(0.9),
-              //   ],
-              //   begin: Alignment.topLeft,
-              //   end: Alignment.bottomRight,
-              //   stops: [0, 1],
-              // ),
               color: Color.fromRGBO(186, 220, 237, 1),
             ),
           ),
@@ -43,36 +34,6 @@ class AuthScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  // Flexible(
-                  //   child: Container(
-                  //     margin: EdgeInsets.only(bottom: 20.0),
-                  //     padding:
-                  //         EdgeInsets.symmetric(vertical: 8.0, horizontal: 94.0),
-                  //     transform: Matrix4.rotationZ(-8 * pi / 180)
-                  //       ..translate(-10.0),
-                  //     // ..translate(-10.0),
-                  //     decoration: BoxDecoration(
-                  //       borderRadius: BorderRadius.circular(20),
-                  //       color: Colors.deepOrange.shade900,
-                  //       boxShadow: [
-                  //         BoxShadow(
-                  //           blurRadius: 8,
-                  //           color: Colors.black26,
-                  //           offset: Offset(0, 2),
-                  //         )
-                  //       ],
-                  //     ),
-                  //     child: Text(
-                  //       'PlaceVerse',
-                  //       style: TextStyle(
-                  //         color: Theme.of(context).accentTextTheme.titleMedium!.color,
-                  //         fontSize: 40,
-                  //         fontFamily: 'Anton',
-                  //         fontWeight: FontWeight.normal,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   Flexible(
                     flex: deviceSize.width > 600 ? 2 : 1,
                     child: AuthCard(key: null,),
@@ -119,8 +80,8 @@ class _AuthCardState extends State<AuthCard> {
     if (_authMode == AuthMode.Login) {
       // Log user in
       var user = await Auth.signIn(_authData['email'], _authData['password']);
-      Fluttertoast.showToast(msg: 'Login Done');
       if (user != null) {
+        Fluttertoast.showToast(msg: 'Login Done');
         Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => AdminView(user: user,)));
       }
       else{
@@ -170,15 +131,10 @@ class _AuthCardState extends State<AuthCard> {
               children: <Widget>[
                 Neumorphic(
                   style: NeumorphicStyle(
-                    // color: Color.fromARGB(255, 191, 203, 208),
-                    // shadowDarkColor: Color.fromARGB(255, 97, 108, 118),
-                    // border: NeumorphicBorder(width: 0.3,color: Colors.blueGrey),
-                    // depth: 5.0,
                     boxShape: NeumorphicBoxShape.roundRect(BorderRadius.all(Radius.circular(20))),
-                    // surfaceIntensity: 0.5
                   ),
                   child: TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'E-Mail',
                       contentPadding: EdgeInsets.only(left: 15),
                       border: InputBorder.none,  
@@ -188,7 +144,6 @@ class _AuthCardState extends State<AuthCard> {
                       if (value!.isEmpty || !value.contains('@')) {
                         return 'Invalid email!';
                       }
-                      return null;
                       return null;
                     },
                     onSaved: (value) {
@@ -253,35 +208,15 @@ class _AuthCardState extends State<AuthCard> {
                 else
                   NeumorphicButton(
                     child:
-                        Text(_authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP'),
+                      Text(_authMode == AuthMode.Login ? 'LOGIN' : 'SIGN UP'),
                     onPressed: _submit,
                     style: NeumorphicStyle(
-                    //  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    //   RoundedRectangleBorder(
-                    //     // borderRadius: BorderRadius.circular(30),
-                        
-                    //   )
-                    //  ),
-                    // shape: NeumorphicShape.concave,
-                    boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(10.0)),
-                      //  boxShape: NeumorphicBoxShape.beveled(BorderRadius.circular(7)),
-                    //  padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(horizontal: 30.0,vertical: 8.0)), 
-                    color:Colors.blueGrey.shade100, 
-                    //  foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).primaryTextTheme.button.,)
+                      boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(10.0)),
+                      color:Colors.blueGrey.shade100, 
                     ),
                         
                    ),
                 
-                // TextButton(
-                //   child: Text(
-                //       '${_authMode == AuthMode.Login ? 'SIGNUP' : 'LOGIN'} INSTEAD'),
-                //   onPressed: _switchAuthMode,
-                //   style: ButtonStyle(
-                //      padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(horizontal: 30.0,vertical: 4.0)), 
-                //      tapTargetSize: MaterialTapTargetSize.shrinkWrap,         
-                //     foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),       
-                //   ),
-                // ),
                 SizedBox(height: 20,),
                 GestureDetector(
                   onTap: _switchAuthMode,

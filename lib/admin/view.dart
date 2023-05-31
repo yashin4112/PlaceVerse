@@ -22,19 +22,20 @@ class AdminView extends StatefulWidget {
 
 class _AdminViewState extends State<AdminView> {
   var data={};
+  var newdata={};
   var list = [];
   var listData = {};
 
   Map<String,dynamic>aws = {}; 
   Map<String,dynamic> morgan = {}; 
-  var jp = {}; 
+  Map<String,dynamic> jp = {}; 
+  Map<String,dynamic> deloitte = {}; 
   int i=0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromRGBO(186, 220, 237, 1),//Color.fromRGBO(151, 196, 218, 1), // 
+        backgroundColor: Color.fromRGBO(186, 220, 237, 1),
         appBar: AppBar(
-          // leading: Icon(Icons.admin_panel_settings_outlined),
           leading: Icon(
             Icons.admin_panel_settings_outlined,
             color: Color.fromRGBO(60, 108, 135, 1),
@@ -64,7 +65,6 @@ class _AdminViewState extends State<AdminView> {
               width: 10,
             )
           ],
-          // leading: Icon(Icons.place_outlined),
           centerTitle: true,
           toolbarHeight: 50,
           leadingWidth: 40,
@@ -94,7 +94,6 @@ class _AdminViewState extends State<AdminView> {
               for (var i in list) {
                 FirebaseFirestore.instance.collection(i).get().then(
                   (QuerySnapshot) async {
-                    // var t = ;
                     QuerySnapshot.docs.forEach((e) {
                       if (i.toString().toLowerCase()=='aws') {
                         aws[e.id] = e.data();
@@ -102,15 +101,17 @@ class _AdminViewState extends State<AdminView> {
                       else if (i.toString().toLowerCase()=='morgan stanley') {
                         morgan[e.id] = e.data();
                       }
+                      else if (i.toString().toLowerCase()=='deloitte') {
+                        deloitte[e.id] = e.data();
+                      }
+                      
                     }); 
                   }
                 );
+                print('newdata $newdata');
               }
             if (widget.user.uid == 'Hl13qcEyhAcVYUMhyh56CJCGoxt2') {
-              print('morgan2 $morgan');
-              print('aws $aws');
               list = list.toSet().toList();
-              print('object ${list}');
               return ListView.builder(
               itemCount: list.length,
               itemBuilder: (context,count){
@@ -129,11 +130,13 @@ class _AdminViewState extends State<AdminView> {
                       child: GestureDetector(
                         onTap: () async{
                             if (list[count].toString().toLowerCase() == 'morgan stanley') {
-                              print(morgan);
                               Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentData(data: morgan)));
                             }
                             else if (list[count].toString().toLowerCase() == 'aws') {
                               Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentData(data: aws)));
+                            }
+                            else if (list[count].toString().toLowerCase() == 'deloitte') {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => StudentData(data: deloitte)));
                             }
                         },
                         child: Container(
@@ -170,7 +173,7 @@ class _AdminViewState extends State<AdminView> {
                 return StudentData(data: morgan);
               }
               else if(widget.user.uid == 'QecxFC7GIKelUepQJGWlu58xlfA2') {
-                return StudentData(data: jp); 
+                return StudentData(data: deloitte); 
               }
             }
             return Container();
@@ -187,8 +190,6 @@ class _AdminViewState extends State<AdminView> {
       return  GestureDetector(
           onTap: () {
             Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext) => AddRecord(user: widget.user,)));
-            // Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext) => OneDataView()));
-            // Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext) => ReadData()));
           },
           child: Neumorphic(
             padding: EdgeInsets.all(1),

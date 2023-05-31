@@ -9,6 +9,8 @@ class StudentData extends StatefulWidget {
   late var prn =[];
   late var cgpa=[];
   late var com=[];
+  late var email=[];
+  late var phno=[];
   StudentData({super.key, required this.data});
 
   @override
@@ -30,10 +32,7 @@ class _StudentDataState extends State<StudentData> {
           itemCount: len(),
           itemBuilder: (context,count){
             i=0;
-            print('object');
-            print(widget.data);
             var val = widget.data.values;
-            print('val $val');
 
             for (Map<String,dynamic> k in val){
               k.forEach((key, value) {
@@ -49,23 +48,14 @@ class _StudentDataState extends State<StudentData> {
                 if (key=='company') {
                   widget.com.add(value);
                 }
+                if (key=='phno') {
+                  widget.phno.add(value);
+                }
+                if (key=='email') {
+                  widget.email.add(value);
+                }
                 });
             }
-            // widget.data.forEach((key, value) {
-              
-            //   if (value.key=='name') {
-            //     widget.name.add(value);
-            //   }
-            //   if (key=='prn') {
-            //     widget.prn.add(value);
-            //   }
-            //   if (key=='cgpa') {
-            //     widget.cgpa.add(value);
-            //   }
-            //   if (key=='company') {
-            //     widget.com.add(value);
-            //   }
-            // },);
             
             print(' name ${widget.name}');
             print(' prn ${widget.prn}');
@@ -74,16 +64,16 @@ class _StudentDataState extends State<StudentData> {
             print('len ${widget.name.length}');
             return Column(
             children: [
-              SizedBox(height: 30,),
+              const SizedBox(height: 30,),
               Center(
                 child: Neumorphic(
-                  style: NeumorphicStyle(
+                  style: const NeumorphicStyle(
                     depth: 5,
                     shadowDarkColor: Color.fromRGBO(136, 188, 218, 1),
                     shadowLightColor: Color.fromRGBO(216, 234, 245, 1),
                   ),
                   child: Container(
-                    height: 170,
+                    height: 210,
                     width: 300,
                     decoration: const BoxDecoration(
                       color: Color.fromRGBO(186, 220, 237, 1), 
@@ -95,14 +85,30 @@ class _StudentDataState extends State<StudentData> {
                         children:[
                           Text(
                             'Name: ${widget.name[count]}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                               fontFamily: 'TextaAltMedium',
                               color: Color.fromRGBO(60, 108, 135, 1),
                             ),  
                           ),
                           Text('PRN: ${widget.prn[count]}',
-                          style: TextStyle(
+                          style: const TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'TextaAltMedium',
+                              color: Color.fromRGBO(60, 108, 135, 1),
+                            ),  
+                          ),
+                          Text(
+                            'Email: ${widget.email[count]}',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'TextaAltMedium',
+                              color: Color.fromRGBO(60, 108, 135, 1),
+                            ),  
+                          ),
+                          Text(
+                            'PHNO: ${widget.phno[count]}',
+                            style: TextStyle(
                               fontSize: 20,
                               fontFamily: 'TextaAltMedium',
                               color: Color.fromRGBO(60, 108, 135, 1),
